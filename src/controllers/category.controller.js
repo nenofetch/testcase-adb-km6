@@ -1,1 +1,1 @@
-import 
+const db = require("../models");

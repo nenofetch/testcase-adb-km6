@@ -1,17 +1,23 @@
-import db from "../../models";
+const db = require("../models");
 
 // declaration variable
 const Products = db.products;
 
-export const getAllProducts = async (req, res) => {
-  const products = await Products.findAll({
-    include: ["categories", "assets"],
-  });
+const getAllProducts = async (req, res) => {
+  try {
+    const products = await Products.findAll({
+      include: ["categories", "assets"],
+    });
 
-  res.send(products);
+    return res.json(products);
+  } catch (error) {
+    return res.status(404).json({
+      message: error,
+    });
+  }
 };
 
-export const detailProduct = async (req, res) => {
+const detailProduct = async (req, res) => {
   const { id } = req.body;
 
   const data = await Products.findAll({
@@ -21,7 +27,7 @@ export const detailProduct = async (req, res) => {
   return res.status(200).json(data);
 };
 
-export const createProduct = async (req, res) => {
+const createProduct = async (req, res) => {
   const { name, price } = req.body;
 
   const product = await Products.create({
@@ -35,11 +41,11 @@ export const createProduct = async (req, res) => {
   });
 };
 
-export const updateProduct = async (req, res) => {
+const updateProduct = async (req, res) => {
   const { id, name, price } = req.body;
 };
 
-export const deleteProduct = async (req, res) => {
+const deleteProduct = async (req, res) => {
   const { id } = req.body;
 
   const data = await Products.destroy({
@@ -47,4 +53,12 @@ export const deleteProduct = async (req, res) => {
   });
 
   return res.json(data);
+};
+
+module.exports = {
+  getAllProducts,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  detailProduct,
 };
