@@ -1,18 +1,12 @@
-import Express from "express";
-import {
-  getAllProducts,
-  createProduct,
-  detailProduct,
-  updateProduct,
-  deleteProduct,
-} from "../controllers/product.controller";
+const express = require("express");
+const productController = require("../controllers/product.controller");
 
-const router = Express.Router();
+const router = express.Router();
 
-router.get("products", getAllProducts);
-router.post("products", createProduct);
-router.get("products/:id", updateProduct);
-router.delete("products/:id", deleteProduct);
-router.get("products/:id", detailProduct);
+router.get("/", productController.getAllProducts);
+router.post("/", productController.createProduct);
+router.get("/:id", productController.updateProduct);
+router.delete("/:id", productController.deleteProduct);
+router.get("/:id", productController.detailProduct);
 
-export default router;
+module.exports = router;
